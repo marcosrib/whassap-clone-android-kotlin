@@ -4,4 +4,6 @@
     <string name="password">Digite sua senha</string>
     <string name="notAccount">Não tem conta? Cadastre-se</string>
     <string name="login">Login</string>
+    <string name="type_name">Digite seu nome</string>
+    <string name="text_button_registration">Cadastrar</string>
 </resources>

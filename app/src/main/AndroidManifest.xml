@@ -14,10 +14,10 @@
         android:theme="@style/Theme.Whatsappclone"
         tools:targetApi="31">
         <activity
-            android:name=".views.RegistrationActivity"
+            android:name="com.example.whatsappclone.presenter.views.RegistrationActivity"
             android:exported="false" />
         <activity
-            android:name=".views.LoginActivity"
+            android:name="com.example.whatsappclone.presenter.views.LoginActivity"
             android:exported="true" >
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
