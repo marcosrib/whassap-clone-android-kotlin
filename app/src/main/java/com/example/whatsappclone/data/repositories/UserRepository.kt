@@ -5,5 +5,6 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 
 interface UserRepository {
-    fun createUser(user: User) : Task<AuthResult>
+    suspend  fun createUser(user: User) : Task<AuthResult>
+
 }
