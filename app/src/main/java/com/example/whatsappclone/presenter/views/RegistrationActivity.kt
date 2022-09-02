@@ -6,21 +6,17 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import com.example.whatsappclone.data.model.User
-import com.example.whatsappclone.data.repositories.UserRepository
 import com.example.whatsappclone.data.repositories.UserRepositoryImpl
 import com.example.whatsappclone.databinding.ActivityRegistrationBinding
-import com.example.whatsappclone.domain.usecases.UserUseCase
 import com.example.whatsappclone.domain.usecases.UserUseCaseImpl
-import com.example.whatsappclone.presenter.viewmodels.CreateUserViewModel
+import com.example.whatsappclone.presenter.viewmodels.UserViewModel
 import com.example.whatsappclone.presenter.viewmodels.providers.CreateUserFactory
 
 class RegistrationActivity : AppCompatActivity() {
     private  lateinit var binding: ActivityRegistrationBinding
-    lateinit var  viewModel: CreateUserViewModel
+    lateinit var  viewModel: UserViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -28,7 +24,7 @@ class RegistrationActivity : AppCompatActivity() {
         setContentView(binding.root)
         viewModel =
             ViewModelProvider(this, CreateUserFactory(UserUseCaseImpl(UserRepositoryImpl()))).get(
-                CreateUserViewModel::class.java
+                UserViewModel::class.java
             )
         viewModel.userLiveData.observe(this, Observer{
             Log.e("ACTIVITY", it.isErrorMessage)
@@ -39,11 +35,10 @@ class RegistrationActivity : AppCompatActivity() {
     }
 
      fun registration(view: View) {
-
         viewModel.createUser(User(
                 "",
-                "marco@gmail.com",
-                      "1234567890"
+                binding.email.text.toString(),
+                binding.password.text.toString(),
             )
             )
 

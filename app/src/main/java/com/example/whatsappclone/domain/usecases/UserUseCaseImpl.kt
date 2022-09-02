@@ -32,14 +32,26 @@ class UserUseCaseImpl(private val userRepository: UserRepository) : UserUseCase 
 
     }
 
+    override suspend fun auth(user: User): UserResponse {
+        Log.e(TAG, "autenticação: " + user.email)
+       return try {
+           userRepository.auth(user).await()
+           return UserResponse(true, "")
+       } catch (e: Exception) {
+           Log.e(TAG, validatedErrors(e))
+           return UserResponse(false, validatedErrors(e))
+       }
 
-    fun validatedErrors(exception: Exception): String {
-        return when (exception) {
+    }
+
+
+    fun validatedErrors(exception: Exception) = when (exception) {
             is FirebaseAuthWeakPasswordException -> "Digite uma senha mais forte!"
             is FirebaseAuthInvalidCredentialsException -> "Digite um emails válido!"
             is FirebaseAuthEmailException -> "Conta já existe!"
             is FirebaseAuthUserCollisionException -> "Essa conta já foi cadastrada!"
+            is FirebaseAuthInvalidUserException -> "Essa conta já foi cadastrada!"
             else -> "Erro ao cadastrar usuário" + exception.localizedMessage
-        }
     }
+
 }

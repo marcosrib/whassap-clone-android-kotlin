@@ -12,4 +12,9 @@ class UserRepositoryImpl : UserRepository {
             return auth.createUserWithEmailAndPassword(user.email, user.password)
     }
 
+    override suspend fun auth(user: User): Task<AuthResult> {
+        val connection = Connection.firebaseAuth()
+        return  connection.signInWithEmailAndPassword(user.email, user.password)
+    }
+
 }

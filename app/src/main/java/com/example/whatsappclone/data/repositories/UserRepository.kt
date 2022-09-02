@@ -6,5 +6,6 @@ import com.google.firebase.auth.AuthResult
 
 interface UserRepository {
     suspend  fun createUser(user: User) : Task<AuthResult>
+    suspend  fun auth(user: User) : Task<AuthResult>
 
 }
