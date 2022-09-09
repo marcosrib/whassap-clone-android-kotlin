@@ -3,6 +3,7 @@ package com.example.whatsappclone.presenter.views
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -26,6 +27,7 @@ class LoginActivity : AppCompatActivity() {
                 UserViewModel::class.java
             )
         viewModel.userLiveData.observe(this, Observer{
+            Log.e("activity", "activity 1"   )
             if(!it.isCreated)
                 Toast.makeText(this@LoginActivity,it.isErrorMessage,  Toast.LENGTH_SHORT).show()
 
@@ -33,10 +35,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
-    fun navScreenRegistration(view: View) {
-        val intent = Intent(this@LoginActivity, RegistrationActivity::class.java)
-        startActivity(intent)
-    }
 
     fun auth(view: View) {
 
@@ -47,5 +45,27 @@ class LoginActivity : AppCompatActivity() {
             binding.authPassword.text.toString()
         )
         )
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.isAuth()
+        viewModel.userAuthenticatedLiveData.observe(this, Observer{
+            Log.e("activity", "activity 1"   )
+          if(it.isCreated) navScreenMain()
+
+        })
+
+    }
+
+
+    fun navScreenRegistration(view: View) {
+        val intent = Intent(this@LoginActivity, RegistrationActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun navScreenMain() {
+        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+        startActivity(intent)
     }
 }

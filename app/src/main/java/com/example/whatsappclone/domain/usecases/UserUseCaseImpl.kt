@@ -24,10 +24,10 @@ class UserUseCaseImpl(private val userRepository: UserRepository) : UserUseCase 
         return try {
             userRepository.createUser(user)
                 .await()
-            return UserResponse(true, "")
+            return UserResponse(true, true, "")
         } catch (e: Exception) {
             Log.e(TAG, validatedErrors(e))
-            return UserResponse(false, validatedErrors(e))
+            return UserResponse(false, false, validatedErrors(e))
         }
 
     }
@@ -36,11 +36,22 @@ class UserUseCaseImpl(private val userRepository: UserRepository) : UserUseCase 
         Log.e(TAG, "autenticação: " + user.email)
        return try {
            userRepository.auth(user).await()
-           return UserResponse(true, "")
+           return UserResponse(true,true, "")
        } catch (e: Exception) {
            Log.e(TAG, validatedErrors(e))
-           return UserResponse(false, validatedErrors(e))
+           return UserResponse(false, false,validatedErrors(e))
        }
+
+    }
+    override suspend fun isAuth(): UserResponse {
+        val userAuthenticated =  userRepository.isAuth();
+
+            if (userAuthenticated != null){
+                Log.e(TAG, "user autenticado: "  + userAuthenticated.email)
+                return UserResponse(true, true,"")
+            } else {
+                return UserResponse(false,false, "")
+            }
 
     }
 

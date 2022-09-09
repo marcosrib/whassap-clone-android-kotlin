@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 
 class UserViewModel constructor(private val userUseCase: UserUseCase) : ViewModel() {
     val userLiveData = MutableLiveData<UserResponse>()
+    val userAuthenticatedLiveData = MutableLiveData<UserResponse>()
     fun createUser(user: User) {
         viewModelScope.launch(Dispatchers.IO) {
             userLiveData.postValue(userUseCase.createUser(user))
@@ -22,6 +23,11 @@ class UserViewModel constructor(private val userUseCase: UserUseCase) : ViewMode
     fun auth(user: User) {
         viewModelScope.launch {
             userLiveData.postValue(userUseCase.auth(user))
+        }
+    }
+    fun isAuth() {
+        viewModelScope.launch {
+            userAuthenticatedLiveData.postValue(userUseCase.isAuth())
         }
     }
 }
